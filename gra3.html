@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papier, Kamień czy Nożyce ?</title>
+    <link rel="stylesheet" href="./css/gra3.css">
+</head>
+<body>
+    <script>
+        let liczba_gier = 0;
+        let komunikat = "";
+        let kolor_komunikatu = "";
+        let punkty_gracza = 0, punkty_komputer = 0;
+        let nazwy_wybor = ["Nożyczki", "Kamień", "Papier"];
+
+        function aktualizuj(ktory_przycisk) {
+            if (ktory_przycisk === 0) {
+                liczba_gier = 0;
+                punkty_gracza = 0;
+                punkty_komputer = 0;
+                komunikat = 'Wybrałeś rozpoczęcie od początku. Zaczynamy nową grę. Powodzenia!';
+                kolor_komunikatu = 'brown';
+                document.querySelectorAll(".wylosowana").forEach(p => p.innerText = "0");
+            } 
+            else {
+                liczba_gier++;
+
+                let liczby = [0, 0, 0];
+                for (let i = 0; i < 3; i++) {
+                    liczby[i] = Math.floor(Math.random() * 100) + 1;
+                }
+
+                document.getElementById("liczba1").innerText = liczby[0];
+                document.getElementById("liczba2").innerText = liczby[1];
+                document.getElementById("liczba3").innerText = liczby[2];
+
+                let wybor_gracza = ktory_przycisk - 1;
+                let max_liczba = Math.max(...liczby);
+
+                if (liczby[wybor_gracza] === max_liczba) {
+                    punkty_gracza++;
+                    komunikat = "Wygrałeś! Twój wybór miał najwyższą liczbę (" + liczby[wybor_gracza] + ")";
+                    kolor_komunikatu = 'green';
+                } else {
+                    punkty_komputer++;
+                    komunikat = "Przegrałeś! Najwyższa liczba: " + nazwy_wybor[liczby.indexOf(max_liczba)] + " (" + max_liczba + ")";
+                    kolor_komunikatu = 'red';
+                }
+            }
+
+            document.getElementById("ilosc").innerHTML = liczba_gier;
+            document.getElementById("komunikat").style.color = kolor_komunikatu;
+            document.getElementById("komunikat").innerHTML = komunikat;
+            document.getElementById("gracz").innerHTML = punkty_gracza;
+            document.getElementById("komputer").innerHTML = punkty_komputer;
+        }
+    </script>
+
+    <a class="powrot" href="./menu.html">Powrót</a>
+
+    <section class="tytul">
+        <h1 id="komunikat">Zaczynamy nową grę. Powodzenia !</h1>
+    </section>
+
+    <section class="reszta">
+        <table>
+            <tr>
+                <th><h1>Liczba gier</h1></th>
+                <th><h1>Gracz</h1></th>
+                <th><h1>Komputer</h1></th>
+            </tr>
+            <tr>
+                <td id="ilosc">0</td>
+                <td id="gracz">0</td>
+                <td id="komputer">0</td>
+            </tr>
+        </table>
+        <br>
+        <section class="gra">
+            <div>
+                <img src="./img/nozyce.jpg" alt=""><br>
+                <button id="1" onclick="aktualizuj(1)">Wybieram nożyczki</button>
+                <br><br>
+                <p>Wylosowana liczba: </p><p class="wylosowana" id="liczba1">0</p>
+            </div>
+            <div>
+                <img src="./img/kamien.jpg" alt=""><br>
+                <button id="2" onclick="aktualizuj(2)">Wybieram kamień</button>
+                <br><br>
+                <p>Wylosowana liczba: </p><p class="wylosowana" id="liczba2">0</p>
+            </div>
+            <div>
+                <img src="./img/papier.jpg" alt=""><br>
+                <button id="3" onclick="aktualizuj(3)">Wybieram papier</button>
+                <br><br>
+                <p>Wylosowana liczba: </p><p class="wylosowana" id="liczba3">0</p>
+            </div>
+        </section>
+        <br>
+        <section>
+            <button class="nowa" onclick="aktualizuj(0)" id="0">Nowa gra</button>
+        </section>
+    </section>
+</body>
+</html>

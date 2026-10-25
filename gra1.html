@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Papier Kamień Nożyce</title>
+    <link rel="stylesheet" href="./css/gra1.css">
+</head> 
+<body>
+    <script>
+        let liczba_gier = 0;
+        let komunikat = "";
+        let kolor_komunikatu = "";
+
+        let punkty_gracza = 0, punkty_komputer = 0;
+        let wybor_gracz = 0, wybor_komputer = 0;
+        let nazwy_wybor = ["Nożyczki", "Kamień", "Papier"];
+
+        function aktualizuj(ktory_przycisk) {
+            if (ktory_przycisk == 0) {
+                liczba_gier = 0;
+                punkty_gracza = 0;
+                punkty_komputer = 0;
+                komunikat = 'Wybrałeś rozpoczęcie od początku. Zaczynamy nową grę. Powodzenia!';
+                kolor_komunikatu = 'brown';
+            } 
+            else {
+                liczba_gier++;
+                wybor_komputer = Math.floor(Math.random() * 3) + 1;
+                wybor_gracz = ktory_przycisk;
+
+                if (wybor_gracz == wybor_komputer) {
+                    komunikat = "Remis! Wybraliście " + nazwy_wybor[wybor_gracz - 1];
+                    kolor_komunikatu = 'orange';
+                    punkty_gracza++;
+                    punkty_komputer++;
+                }
+                else if (
+                    (wybor_gracz == 1 && wybor_komputer == 3) || 
+                    (wybor_gracz == 2 && wybor_komputer == 1) || 
+                    (wybor_gracz == 3 && wybor_komputer == 2)    
+                ) {
+                    punkty_gracza += 3;
+                    komunikat = "Wygrałeś! Wybrałeś " + nazwy_wybor[wybor_gracz - 1] + ", a komputer wybrał " + nazwy_wybor[wybor_komputer - 1];
+                    kolor_komunikatu = 'green';
+                }
+                else {
+                    punkty_komputer += 3;
+                    komunikat = "Przegrałeś! Wybrałeś " + nazwy_wybor[wybor_gracz - 1] + ", a komputer wybrał " + nazwy_wybor[wybor_komputer - 1];
+                    kolor_komunikatu = 'red';
+                }
+            }
+
+            document.getElementById("ilosc").innerHTML = liczba_gier;
+            document.getElementById("komunikat").style.color = kolor_komunikatu;
+            document.getElementById("komunikat").innerHTML = komunikat;
+            document.getElementById("gracz").innerHTML = punkty_gracza;
+            document.getElementById("komputer").innerHTML = punkty_komputer;
+        }
+    </script>
+
+    <a class="powrot" href="./menu.html">Powrót</a>
+    <section class="tytul">
+        <h1 id="komunikat">Zaczynamy nową grę. Powodzenia !</h1>
+    </section>
+    <section class="reszta">
+        <table>
+            <tr>
+                <th><h1>Liczba gier</h1></th>
+                <th><h1>Gracz</h1></th>
+                <th><h1>Komputer</h1></th>
+            </tr>
+            <tr>
+                <td id="ilosc">0</td>
+                <td id="gracz">0</td>
+                <td id="komputer">0</td>
+            </tr>
+        </table>
+        <br>
+        <section class="gra">
+            <div>
+                <img src="./img/nozyce.jpg" alt=""><br>
+                <button id="1" onclick="aktualizuj(1)">Wybieram nożyczki</button>
+            </div>
+            <div>
+                <img src="./img/kamien.jpg" alt=""><br>
+                <button id="2" onclick="aktualizuj(2)">Wybieram kamień</button>
+            </div>
+            <div>
+                <img src="./img/papier.jpg" alt=""><br>
+                <button id="3" onclick="aktualizuj(3)">Wybieram papier</button>
+            </div>
+        </section>
+        <br>
+        <section>
+            <button class="nowa" onclick="aktualizuj(0)" id="0">Nowa gra</button>
+        </section>
+    </section>
+</body>
+</html>
